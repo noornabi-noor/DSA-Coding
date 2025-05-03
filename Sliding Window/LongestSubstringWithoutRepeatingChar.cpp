@@ -40,27 +40,58 @@
 //Time:O(n^3)
 
 
+// #include<bits/stdc++.h>
+// using namespace std;
+
+
+// int main(){
+//     string s;
+//     cin>>s;
+//     int sz=s.size();
+//     int mxL = 0;
+//     for(int i=0;i<sz;i++){
+//         unordered_set<char> ch;
+//         for(int j=i;j<sz;j++){
+//             if(ch.count(s[j])){
+//                 break;
+//             }
+//             ch.insert(s[j]);
+//             mxL = max(mxL, j - i + 1);
+//         }
+//     }
+//     cout << mxL << '\n';
+//     return 0;
+// }
+
+//O(N^2)
+
+
+
+
+
 #include<bits/stdc++.h>
 using namespace std;
-
 
 int main(){
     string s;
     cin>>s;
     int sz=s.size();
-    int mxL = 0;
+    int mxL=INT_MIN;
+    int start=0;
+    unordered_set<char>ch;
     for(int i=0;i<sz;i++){
-        unordered_set<char> ch;
-        for(int j=i;j<sz;j++){
-            if(ch.count(s[j])){
-                break;
-            }
-            ch.insert(s[j]);
-            mxL = max(mxL, j - i + 1);
+        while(ch.count(s[i]) && start<=i){
+            ch.erase(s[start]);
+            start++;
         }
+        ch.insert(s[i]);
+        mxL = max(mxL, i - start + 1);
     }
-    cout << mxL << '\n';
+    cout<<mxL<<"\n";
     return 0;
 }
 
-//O(N^2)
+
+
+// ✅ Time Complexity: O(N)
+// ✅ Space Complexity: O(N)
