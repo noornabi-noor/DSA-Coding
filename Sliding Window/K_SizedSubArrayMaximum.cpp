@@ -65,33 +65,32 @@ int main(){
         cin>>arr[i];
     }
     int mx=INT_MIN;
-    queue<int>q;
+
+    deque<int>d;
     vector<int>ans;
-    for(int i=0;i<k;i++){
-        q.push(arr[i]);
-        mx=max(mx,arr[i]);
+
+    for(int i=0;i<k-1;i++){
+        if(d.empty()){
+            d.push_back(i);
+        }
+        else{
+            while(!d.empty() && arr[i]>arr[d.back()]){
+                d.pop_back();
+            }
+            d.push_back(i);
+        }
     }  
     
-    ans.push_back(mx);
         
-    for(int i=k;i<n;i++){
-
-        int chk=q.front();
-        q.pop();
-        q.push(arr[i]);
-
-        if (chk == mx) {
-            mx = INT_MIN;
-            queue<int> temp = q;
-            while (!temp.empty()) {
-                mx = max(mx, temp.front());
-                temp.pop();
-            }
-        } else {
-            mx = max(mx, arr[i]); 
+    for(int i=k-1;i<n;i++){
+        while(!d.empty() && arr[i]>arr[d.back()]){
+            d.pop_back();
         }
-
-        ans.push_back(mx);
+        d.push_back(i);
+        if(d.front()<=i-k){
+            d.pop_front();
+        }
+        ans.push_back(arr[d.front()]);
     }
 
     for(int i=0;i<ans.size();i++){
@@ -99,3 +98,5 @@ int main(){
     }
     return 0;
 }
+
+//O(N)
